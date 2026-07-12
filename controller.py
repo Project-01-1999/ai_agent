@@ -1,6 +1,7 @@
 from llm import LLM
 from tool_manager import ToolManager
 from settings import PROJECTS_FOLDER
+from intent_parser import IntentParser
 import os
 
 
@@ -9,19 +10,30 @@ class AstraController:
     def __init__(self):
         self.llm = LLM()
         self.tools = ToolManager()
+        self.parser = IntentParser()
 
     def chat(self, user_message):
 
-        message = user_message.lower().strip()
+            intent = self.parser.parse(user_message)
 
-        # Folder creation intent
-        if message.startswith("create folder "):
+            if intent["intent"] == "create_folder":
 
-            folder_name = user_message[len("create folder "):].strip()
+                folder_path = os.path.join(
+                PROJECTS_FOLDER,
+                intent["name"]
+                )
 
-            folder_path = os.path.join(PROJECTS_FOLDER, folder_name)
+                return self.tools.create_folder(folder_path)
 
-            return self.tools.create_folder(folder_path)
+            elif intent["intent"] == "create_file":
 
-        # Default: ask the LLM
-        return self.llm.ask(user_message)
+                file_path = os.path.join(
+                PROJECTS_FOLDER,
+                intent["name"]
+                )
+
+                return self.tools.create_file(file_path)
+
+            else:
+
+                return self.llm.ask(user_message)
