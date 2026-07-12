@@ -1,7 +1,12 @@
 from pathlib import Path
+from tools.base_tool import BaseTool
 
 
 class CreateFileTool:
+    
+    @property
+    def name(self):
+        return "create_file"
 
     def run(self, file_path: str):
 
