@@ -2,8 +2,8 @@ from pathlib import Path
 from tools.base_tool import BaseTool
 
 
-class CreateFileTool:
-    
+class CreateFileTool(BaseTool):
+
     @property
     def name(self):
         return "create_file"
@@ -13,14 +13,11 @@ class CreateFileTool:
         path = Path(file_path)
 
         try:
-            # Create parent folders if they don't exist
             path.parent.mkdir(parents=True, exist_ok=True)
 
-            # Check if file already exists
             if path.exists():
                 return f"File already exists: {file_path}"
 
-            # Create an empty file
             path.touch()
 
             return f"File created successfully: {file_path}"

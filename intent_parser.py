@@ -30,7 +30,16 @@ class IntentParser:
                 "intent": "create_file",
                 "name": match.group(4).strip()
             }
+        match = re.match(
+            r"(?i)create\s+python\s+project\s+(.+)",
+            text
+        )
 
+        if match:
+            return {
+                "intent": "create_python_project",
+                "name": match.group(1).strip()
+            }
         return {
             "intent": "chat",
             "message": text

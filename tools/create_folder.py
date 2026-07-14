@@ -2,13 +2,11 @@ from pathlib import Path
 from tools.base_tool import BaseTool
 
 
+class CreateFolderTool(BaseTool):
 
-class CreateFolderTool:
-    
     @property
     def name(self):
         return "create_folder"
-
 
     def run(self, folder_path: str):
 
